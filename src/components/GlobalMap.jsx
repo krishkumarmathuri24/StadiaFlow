@@ -221,6 +221,7 @@ const GlobalMap = ({ onSelectVenue }) => {
     setStadiums([]);
 
     const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+    try {
 
     // ============================================================
     // PHASE 1: Fetch ALL today's events from TheSportsDB (instant, one call)
@@ -377,7 +378,6 @@ const GlobalMap = ({ onSelectVenue }) => {
     // Show cached venues IMMEDIATELY
     setStadiums([...finalStadiums]);
     setStatus(`${finalStadiums.length} venues loaded instantly. Geocoding ${needsGeocoding.length} remaining...`);
-
     // Geocode remaining (slow, but non-blocking — UI already has data)
     for (let i = 0; i < needsGeocoding.length; i++) {
       const v = needsGeocoding[i];
@@ -393,6 +393,9 @@ const GlobalMap = ({ onSelectVenue }) => {
           setStadiums([...finalStadiums]);
         }
       } catch (e) { /* skip */ }
+      await sleep(1100);
+    }
+    setStatus(`Tracking ${finalStadiums.length} live venues worldwide`);
     } catch (err) {
       console.error('Data cycle failed:', err);
       setStatus('Data fetch interrupted. Using cached data...');
