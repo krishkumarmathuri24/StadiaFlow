@@ -176,7 +176,7 @@ const CustomGlobe = ({ stadiums, onHover, onClick, hoveredStadium }) => {
   const [earthMap, setEarthMap] = useState(null);
 
   useEffect(() => {
-    new THREE.TextureLoader().load('/earth.jpg', (texture) => {
+    new THREE.TextureLoader().load('/world.jpg', (texture) => {
       texture.colorSpace = THREE.SRGBColorSpace;
       setEarthMap(texture);
     });
@@ -431,12 +431,11 @@ const GlobalMap = ({ onSelectVenue }) => {
   const liveCount = stadiums.filter(s => s.isLive).length;
 
   return (
-    <div style={{ width: '100vw', height: '100vh', background: 'radial-gradient(ellipse at bottom, #1b2735 0%, #020205 100%)', position: 'relative' }}>
+    <div style={{ width: '100vw', height: '100vh', background: 'radial-gradient(circle at center, #0F172A 0%, #020617 100%)', position: 'relative' }}>
       <Canvas camera={{ position: [0, 10, 60], fov: 60 }}>
         <ambientLight intensity={0.8} />
         <directionalLight position={[20, 20, 20]} intensity={2.5} color="#00f0ff" />
         <spotLight position={[-20, -20, 0]} intensity={1.5} color="#8a2be2" />
-        <Stars radius={100} depth={50} count={6000} factor={4} saturation={0} fade speed={1.5} />
         <CustomGlobe stadiums={filteredStadiums} onHover={setHoveredStadium} onClick={handleStadiumClick} hoveredStadium={hoveredStadium} />
         <OrbitControls enableZoom enablePan={false} minDistance={30} maxDistance={90} autoRotate autoRotateSpeed={0.4} />
         <Environment preset="night" />
