@@ -433,8 +433,8 @@ const GlobalMap = ({ onSelectVenue }) => {
   return (
     <div style={{ width: '100vw', height: '100vh', background: '#020205', position: 'relative' }}>
       <Canvas camera={{ position: [0, 10, 60], fov: 60 }}>
-        <ambientLight intensity={0.8} />
-        <directionalLight position={[20, 20, 20]} intensity={2.5} color="#00f0ff" />
+        <ambientLight intensity={1.5} />
+        <directionalLight position={[20, 20, 20]} intensity={3.0} color="#ffffff" />
         <spotLight position={[-20, -20, 0]} intensity={1.5} color="#8a2be2" />
         <CustomGlobe stadiums={filteredStadiums} onHover={setHoveredStadium} onClick={handleStadiumClick} hoveredStadium={hoveredStadium} />
         <OrbitControls enableZoom enablePan={false} minDistance={30} maxDistance={90} autoRotate autoRotateSpeed={0.4} />
