@@ -1,6 +1,6 @@
 import React, { useRef, useState, useMemo, useEffect, useCallback } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Environment, Html } from '@react-three/drei';
+import { OrbitControls, Environment, Html, Stars } from '@react-three/drei';
 import * as THREE from 'three';
 import { Search, Loader2, RefreshCw } from 'lucide-react';
 import axios from 'axios';
@@ -431,11 +431,12 @@ const GlobalMap = ({ onSelectVenue }) => {
   const liveCount = stadiums.filter(s => s.isLive).length;
 
   return (
-    <div style={{ width: '100vw', height: '100vh', background: '#020205', position: 'relative' }}>
+    <div style={{ width: '100vw', height: '100vh', background: 'radial-gradient(ellipse at bottom, #1b2735 0%, #020205 100%)', position: 'relative' }}>
       <Canvas camera={{ position: [0, 10, 60], fov: 60 }}>
         <ambientLight intensity={1.5} />
         <directionalLight position={[20, 20, 20]} intensity={3.0} color="#ffffff" />
         <spotLight position={[-20, -20, 0]} intensity={1.5} color="#8a2be2" />
+        <Stars radius={100} depth={50} count={6000} factor={4} saturation={0} fade speed={1.5} />
         <CustomGlobe stadiums={filteredStadiums} onHover={setHoveredStadium} onClick={handleStadiumClick} hoveredStadium={hoveredStadium} />
         <OrbitControls enableZoom enablePan={false} minDistance={30} maxDistance={90} autoRotate autoRotateSpeed={0.4} />
         <Environment preset="night" />
