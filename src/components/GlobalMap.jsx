@@ -170,32 +170,34 @@ const getCartesianCoordinates = (lat, lon, radius) => {
 
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-const DataSpaceBackground = () => {
+const MovingSpaceParticles = () => {
   return (
     <group>
-      <Grid 
-        position={[0, -35, 0]} 
-        infiniteGrid 
-        fadeDistance={250} 
-        sectionColor="#00e5ff" 
-        cellColor="#001133" 
-        sectionThickness={1.5} 
-        cellThickness={0.8} 
-      />
+      {/* Tiny background stars moving gently */}
       <Sparkles 
-        count={2000} 
-        scale={250} 
-        size={8} 
-        speed={0.4} 
-        opacity={0.3} 
-        color="#00f0ff" 
+        count={3000} 
+        scale={300} 
+        size={2} 
+        speed={0.5} 
+        opacity={0.6} 
+        color="#ffffff" 
       />
+      {/* Medium astroid-like particles moving faster towards the user */}
       <Sparkles 
-        count={500} 
+        count={600} 
         scale={200} 
-        size={15} 
-        speed={0.1} 
-        opacity={0.15} 
+        size={6} 
+        speed={1.5} 
+        opacity={0.8} 
+        color="#b4c8ff" 
+      />
+      {/* Large colorful space debris moving very fast */}
+      <Sparkles 
+        count={150} 
+        scale={100} 
+        size={12} 
+        speed={2.5} 
+        opacity={0.5} 
         color="#8a2be2" 
       />
     </group>
@@ -468,7 +470,7 @@ const GlobalMap = ({ onSelectVenue }) => {
         <ambientLight intensity={0.8} />
         <directionalLight position={[20, 20, 20]} intensity={2.5} color="#00f0ff" />
         <spotLight position={[-20, -20, 0]} intensity={1.5} color="#8a2be2" />
-        <DataSpaceBackground />
+        <MovingSpaceParticles />
         <CustomGlobe stadiums={filteredStadiums} onHover={setHoveredStadium} onClick={handleStadiumClick} hoveredStadium={hoveredStadium} />
         <OrbitControls enableZoom enablePan={false} minDistance={30} maxDistance={90} autoRotate autoRotateSpeed={0.4} />
         <Environment preset="night" />
