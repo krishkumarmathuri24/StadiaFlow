@@ -177,6 +177,7 @@ const CustomGlobe = ({ stadiums, onHover, onClick, hoveredStadium }) => {
 
   useEffect(() => {
     new THREE.TextureLoader().load('/earth.jpg', (texture) => {
+      texture.colorSpace = THREE.SRGBColorSpace;
       setEarthMap(texture);
     });
   }, []);
@@ -186,9 +187,9 @@ const CustomGlobe = ({ stadiums, onHover, onClick, hoveredStadium }) => {
       <mesh>
         <sphereGeometry args={[globeRadius, 64, 64]} />
         {earthMap ? (
-          <meshStandardMaterial map={earthMap} roughness={0.7} metalness={0.2} />
+          <meshStandardMaterial key="textured" map={earthMap} roughness={0.7} metalness={0.2} transparent={false} />
         ) : (
-          <meshStandardMaterial color="#000d1a" roughness={0.7} metalness={0.2} />
+          <meshStandardMaterial key="solid" color="#000d1a" roughness={0.7} metalness={0.2} />
         )}
       </mesh>
 
