@@ -170,33 +170,6 @@ const getCartesianCoordinates = (lat, lon, radius) => {
 
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-const GalaxyBackground = () => {
-  const [galaxyMap, setGalaxyMap] = useState(null);
-  const sphereRef = useRef();
-
-  useEffect(() => {
-    new THREE.TextureLoader().load('/nebula.png', (texture) => {
-      texture.colorSpace = THREE.SRGBColorSpace;
-      setGalaxyMap(texture);
-    });
-  }, []);
-
-  useFrame(() => {
-    if (sphereRef.current) {
-      sphereRef.current.rotation.y += 0.0005;
-      sphereRef.current.rotation.x += 0.0002;
-    }
-  });
-
-  if (!galaxyMap) return null;
-  return (
-    <mesh ref={sphereRef}>
-      <sphereGeometry args={[300, 64, 64]} />
-      <meshBasicMaterial map={galaxyMap} side={THREE.BackSide} />
-    </mesh>
-  );
-};
-
 const CustomGlobe = ({ stadiums, onHover, onClick, hoveredStadium }) => {
   const globeRadius = 25;
   const groupRef = useRef();
@@ -458,12 +431,11 @@ const GlobalMap = ({ onSelectVenue }) => {
   const liveCount = stadiums.filter(s => s.isLive).length;
 
   return (
-    <div style={{ width: '100vw', height: '100vh', background: '#000', position: 'relative' }}>
+    <div style={{ width: '100vw', height: '100vh', background: 'radial-gradient(circle at center, #0a0d18 0%, #000000 80%)', position: 'relative' }}>
       <Canvas camera={{ position: [0, 10, 60], fov: 60 }}>
         <ambientLight intensity={0.8} />
         <directionalLight position={[20, 20, 20]} intensity={2.5} color="#00f0ff" />
         <spotLight position={[-20, -20, 0]} intensity={1.5} color="#8a2be2" />
-        <GalaxyBackground />
         <CustomGlobe stadiums={filteredStadiums} onHover={setHoveredStadium} onClick={handleStadiumClick} hoveredStadium={hoveredStadium} />
         <OrbitControls enableZoom enablePan={false} minDistance={30} maxDistance={90} autoRotate autoRotateSpeed={0.4} />
         <Environment preset="night" />
