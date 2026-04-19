@@ -172,17 +172,26 @@ const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
 const GalaxyBackground = () => {
   const [galaxyMap, setGalaxyMap] = useState(null);
+  const sphereRef = useRef();
+
   useEffect(() => {
-    new THREE.TextureLoader().load('/galaxy.png', (texture) => {
+    new THREE.TextureLoader().load('/nebula.png', (texture) => {
       texture.colorSpace = THREE.SRGBColorSpace;
       setGalaxyMap(texture);
     });
   }, []);
 
+  useFrame(() => {
+    if (sphereRef.current) {
+      sphereRef.current.rotation.y += 0.0005;
+      sphereRef.current.rotation.x += 0.0002;
+    }
+  });
+
   if (!galaxyMap) return null;
   return (
-    <mesh>
-      <sphereGeometry args={[200, 64, 64]} />
+    <mesh ref={sphereRef}>
+      <sphereGeometry args={[300, 64, 64]} />
       <meshBasicMaterial map={galaxyMap} side={THREE.BackSide} />
     </mesh>
   );
