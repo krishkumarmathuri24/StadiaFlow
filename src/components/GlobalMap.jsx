@@ -170,10 +170,6 @@ const getCartesianCoordinates = (lat, lon, radius) => {
 
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-const earthLoader = new THREE.TextureLoader();
-earthLoader.setCrossOrigin('anonymous');
-const earthColorMap = earthLoader.load('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg');
-
 const CustomGlobe = ({ stadiums, onHover, onClick, hoveredStadium }) => {
   const globeRadius = 25;
   const groupRef = useRef();
@@ -182,7 +178,7 @@ const CustomGlobe = ({ stadiums, onHover, onClick, hoveredStadium }) => {
     <group ref={groupRef}>
       <mesh>
         <sphereGeometry args={[globeRadius, 64, 64]} />
-        <meshStandardMaterial map={earthColorMap} color="#000d1a" roughness={0.7} metalness={0.2} />
+        <meshBasicMaterial color="#111" wireframe />
       </mesh>
 
       {stadiums.map((s) => {
@@ -423,11 +419,11 @@ const GlobalMap = ({ onSelectVenue }) => {
   const liveCount = stadiums.filter(s => s.isLive).length;
 
   return (
-    <div style={{ width: '100vw', height: '100vh', background: '#020205', position: 'relative' }}>
+    <div style={{ width: '100vw', height: '100vh', background: '#000', position: 'relative' }}>
       <Canvas camera={{ position: [0, 10, 60], fov: 60 }}>
-        <ambientLight intensity={0.8} />
-        <directionalLight position={[20, 20, 20]} intensity={2.5} color="#00f0ff" />
-        <spotLight position={[-20, -20, 0]} intensity={1.5} color="#8a2be2" />
+        <ambientLight intensity={0.4} />
+        <directionalLight position={[20, 20, 20]} intensity={1.5} color="#00f0ff" />
+        <spotLight position={[-20, -20, 0]} intensity={1} color="#8a2be2" />
         <CustomGlobe stadiums={filteredStadiums} onHover={setHoveredStadium} onClick={handleStadiumClick} hoveredStadium={hoveredStadium} />
         <OrbitControls enableZoom enablePan={false} minDistance={30} maxDistance={90} autoRotate autoRotateSpeed={0.4} />
         <Environment preset="night" />
