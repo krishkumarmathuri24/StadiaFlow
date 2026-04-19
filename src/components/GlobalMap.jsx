@@ -1,6 +1,6 @@
 import React, { useRef, useState, useMemo, useEffect, useCallback } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Environment, Html, Stars } from '@react-three/drei';
+import { OrbitControls, Environment, Html, Grid, Sparkles } from '@react-three/drei';
 import * as THREE from 'three';
 import { Search, Loader2, RefreshCw } from 'lucide-react';
 import axios from 'axios';
@@ -169,6 +169,38 @@ const getCartesianCoordinates = (lat, lon, radius) => {
 };
 
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
+const DataSpaceBackground = () => {
+  return (
+    <group>
+      <Grid 
+        position={[0, -35, 0]} 
+        infiniteGrid 
+        fadeDistance={250} 
+        sectionColor="#00e5ff" 
+        cellColor="#001133" 
+        sectionThickness={1.5} 
+        cellThickness={0.8} 
+      />
+      <Sparkles 
+        count={2000} 
+        scale={250} 
+        size={8} 
+        speed={0.4} 
+        opacity={0.3} 
+        color="#00f0ff" 
+      />
+      <Sparkles 
+        count={500} 
+        scale={200} 
+        size={15} 
+        speed={0.1} 
+        opacity={0.15} 
+        color="#8a2be2" 
+      />
+    </group>
+  );
+};
 
 const CustomGlobe = ({ stadiums, onHover, onClick, hoveredStadium }) => {
   const globeRadius = 25;
@@ -431,11 +463,12 @@ const GlobalMap = ({ onSelectVenue }) => {
   const liveCount = stadiums.filter(s => s.isLive).length;
 
   return (
-    <div style={{ width: '100vw', height: '100vh', background: 'radial-gradient(circle at center, #0a0d18 0%, #000000 80%)', position: 'relative' }}>
+    <div style={{ width: '100vw', height: '100vh', background: 'radial-gradient(ellipse at bottom, #050a1f 0%, #000000 100%)', position: 'relative' }}>
       <Canvas camera={{ position: [0, 10, 60], fov: 60 }}>
         <ambientLight intensity={0.8} />
         <directionalLight position={[20, 20, 20]} intensity={2.5} color="#00f0ff" />
         <spotLight position={[-20, -20, 0]} intensity={1.5} color="#8a2be2" />
+        <DataSpaceBackground />
         <CustomGlobe stadiums={filteredStadiums} onHover={setHoveredStadium} onClick={handleStadiumClick} hoveredStadium={hoveredStadium} />
         <OrbitControls enableZoom enablePan={false} minDistance={30} maxDistance={90} autoRotate autoRotateSpeed={0.4} />
         <Environment preset="night" />
