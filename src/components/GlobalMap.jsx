@@ -170,18 +170,26 @@ const getCartesianCoordinates = (lat, lon, radius) => {
 
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-const earthLoader = new THREE.TextureLoader();
-const earthColorMap = earthLoader.load('/earth.jpg');
-
 const CustomGlobe = ({ stadiums, onHover, onClick, hoveredStadium }) => {
   const globeRadius = 25;
   const groupRef = useRef();
+  const [earthMap, setEarthMap] = useState(null);
+
+  useEffect(() => {
+    new THREE.TextureLoader().load('/earth.jpg', (texture) => {
+      setEarthMap(texture);
+    });
+  }, []);
 
   return (
     <group ref={groupRef}>
       <mesh>
         <sphereGeometry args={[globeRadius, 64, 64]} />
-        <meshStandardMaterial map={earthColorMap} color="#000d1a" roughness={0.7} metalness={0.2} />
+        {earthMap ? (
+          <meshStandardMaterial map={earthMap} roughness={0.7} metalness={0.2} />
+        ) : (
+          <meshStandardMaterial color="#000d1a" roughness={0.7} metalness={0.2} />
+        )}
       </mesh>
 
       {stadiums.map((s) => {
